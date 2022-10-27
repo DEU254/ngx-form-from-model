@@ -4,6 +4,7 @@
     <input
       [type]="field.options?.type || 'text'"
       class="form-control"
+      [ngClass]="{'form-control-sm': size == 'sm'}"
       [id]="field.id"
       [placeholder]="field.options?.label || field.id"
       [formControlName]="field.id"
@@ -11,11 +12,12 @@
     />
 
     <div class="form-floating mb-3"
-      *ngIf="['checkbox', 'text', 'number', 'email', 'password', 'date'].indexOf(field.options?.type || 'text') !== -1"
+      *ngIf="['checkbox', 'text', 'number', 'email', 'password', 'date', 'datetime-local'].indexOf(field.options?.type || 'text') !== -1"
     >
       <input
         [type]="field.options?.type || 'text'"
         class="form-control"
+        [ngClass]="{'form-control-sm': size == 'sm'}"
         [id]="field.id"
         [placeholder]="field.options?.label || field.id"
         [formControlName]="field.id"/>

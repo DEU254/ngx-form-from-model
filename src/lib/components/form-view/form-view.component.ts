@@ -12,6 +12,7 @@ import { ucfirst } from '../../helpers'
 export class FormViewComponent implements OnInit {
 
   @Input() formDefinition: FormDefinition = new FormDefinition()
+  @Input() size: string = ''
   ucfirst = ucfirst
 
   constructor() { }
@@ -21,13 +22,15 @@ export class FormViewComponent implements OnInit {
   onSubmit() {}
 
   source(field: FieldDefinition): Observable<SelectOption[]> {
+
     if(typeof field.options?.source === 'string' || field.options?.source == undefined)
       return of([])
 
-    if(typeof field.options?.source === 'object')
-      return field.options?.source as Observable<SelectOption[]>
+    if((field.options?.source as any).length) {
+      return of(field.options?.source as SelectOption[])
+    }
 
-    return of(field.options?.source as SelectOption[])
+    return field.options?.source as Observable<SelectOption[]>
   }
 
 }
