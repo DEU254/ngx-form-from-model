@@ -20,7 +20,21 @@
         [ngClass]="{'form-control-sm': size == 'sm'}"
         [id]="field.id"
         [placeholder]="field.options?.label || field.id"
-        [formControlName]="field.id"/>
+        [formControlName]="field.id"
+        *ngIf="!field.options?.masked"
+      />
+
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{'form-control-sm': size == 'sm'}"
+        [id]="field.id"
+        [placeholder]="field.options?.label || field.id"
+        [formControlName]="field.id"
+        *ngIf="field.options?.masked"
+        [mask]="field.options?.masked?.mask || 'separator'"
+        [thousandSeparator]="field.options?.masked?.thousandSeparator || '.'"
+      />
       <label [for]="field.id" class="form-label">{{field.options?.label || ucfirst(field.id)}}</label>
     </div>
 
