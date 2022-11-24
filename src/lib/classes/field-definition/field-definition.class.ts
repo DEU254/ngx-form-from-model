@@ -1,6 +1,11 @@
 import { ValidatorFn } from '@angular/forms'
 import { Observable } from 'rxjs'
 
+export interface MaskedOption {
+  thousandSeparator?:string
+  mask?:string
+}
+
 export interface SelectOption {
   value:string
   label?:string
@@ -11,6 +16,7 @@ export interface FieldOptions {
   label?: string
   source?: SelectOption[] | string | Observable<SelectOption[]>
   visible?: boolean
+  masked?: MaskedOption
 }
 
 export class FieldDefinition {

@@ -1,10 +1,11 @@
 {
   "name": "ngx-form-from-model",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "peerDependencies": {
     "@angular/common": "^14.2.0",
     "@angular/core": "^14.2.0",
-    "rxjs": "~7.5.0"
+    "rxjs": "~7.5.0",
+    "ngx-mask": "^14.2.4"
   },
   "dependencies": {
     "tslib": "^2.3.0"
