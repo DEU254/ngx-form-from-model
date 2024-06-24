@@ -1,0 +1,117 @@
+<div [formGroup]="formGroup">
+  <input
+    [type]="field.options?.type || 'text'"
+    [id]="field.id"
+    [formControlName]="field.id"
+    *ngIf="['hidden'].indexOf(field.options?.type || 'text') !== -1"
+  />
+
+  <div
+    [ngClass]="styleService.getStyleFor('formViewControlDiv', uistyle)"
+    *ngIf="['checkbox', 'text', 'number', 'email', 'password', 'date', 'datetime-local'].indexOf(field.options?.type || 'text') !== -1"
+  >
+    <label
+      [for]="field.id"
+      [ngClass]="styleService.getStyleFor('formViewControlLabel', uistyle)"
+    >
+      {{field.options?.label || ucfirst(field.id)}}
+    </label>
+    <div [ngClass]="styleService.getStyleFor('formViewControlWrapper', uistyle)">
+      <div [ngClass]="styleService.getStyleFor('formViewControlInputWrapper', uistyle)">
+        <input
+          [type]="field.options?.type || 'text'"
+          [ngClass]="
+            styleService.mergeStyles(
+              styleService.getStyleFor('formViewControlInput', uistyle),
+              styleService.getStyleFor('formViewControlInputSm', uistyle, size == 'sm')
+            )
+          "
+          [id]="field.id"
+          [placeholder]="field.options?.label || field.id"
+          [formControlName]="field.id"
+          *ngIf="!field.options?.masked"
+        />
+
+        <input
+          type="text"
+          [ngClass]="
+            styleService.mergeStyles(
+              styleService.getStyleFor('formViewControlInput', uistyle),
+              styleService.getStyleFor('formViewControlInputSm', uistyle, size == 'sm')
+            )
+          "
+          [id]="field.id"
+          [placeholder]="field.options?.label || field.id"
+          [formControlName]="field.id"
+          *ngIf="field.options?.masked"
+          [mask]="field.options?.masked?.mask || 'separator'"
+          [thousandSeparator]="field.options?.masked?.thousandSeparator || '.'"
+        />
+
+      </div>
+    </div>
+  </div>
+
+  <div
+    [ngClass]="styleService.getStyleFor('formViewControlDiv', uistyle)"
+    *ngIf="['select'].indexOf(field.options?.type || 'text') !== -1"
+  >
+    <label
+      [for]="field.id"
+      [ngClass]="styleService.getStyleFor('formViewControlLabel', uistyle)"
+    >
+      {{field.options?.label || ucfirst(field.id)}}
+    </label>
+    <div [ngClass]="styleService.getStyleFor('formViewControlWrapper', uistyle)">
+      <select
+        [id]="field.id"
+        [formControlName]="field.id"
+        [ngClass]="
+          styleService.mergeStyles(
+            styleService.getStyleFor('formViewControlSelect', uistyle),
+            styleService.getStyleFor('formViewControlSelectSm', uistyle, size == 'sm')
+          )
+        "
+      >
+        <option *ngFor="let option of source(field) | async" [value]="option.value">{{option.label || option.value}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div
+    [ngClass]="styleService.getStyleFor('formViewControlDiv', uistyle)"
+    *ngIf="['array'].indexOf(field.options?.type || 'text') !== -1 && !field.options?.component"
+    [formArrayName]="field.id"
+  >
+    <h3 [ngClass]="styleService.getStyleFor('formViewControlArrayTitle', uistyle)">
+      {{ field.options?.label }}
+    </h3>
+    <div
+      [ngClass]="styleService.getStyleFor('formViewControlWrapper', uistyle)"
+      *ngFor="let control of getFormArray().controls;  let i=index"
+    >
+      <div [formGroupName]="i" *ngFor="let subField of getFormDefinition(i).fields;">
+        <ffm-form-view-control
+          [field]="subField"
+          [uistyle]="uistyle"
+          [formGroup]="getFormGroup(control)"
+          [size]="size"
+        ></ffm-form-view-control>
+      </div>
+    </div>
+  </div>
+
+  <div
+    [ngClass]="styleService.getStyleFor('formViewControlDiv', uistyle)"
+    *ngIf="['object', 'array'].indexOf(field.options?.type || 'text') !== -1 && field.options?.component"
+    [formArrayName]="field.id"
+  >
+    <h3 [ngClass]="styleService.getStyleFor('formViewControlArrayTitle', uistyle)">
+      {{ field.options?.label }}
+    </h3>
+    <ng-container *ngComponentOutlet="
+      field.options?.component;
+      inputs: getComponentInputs();
+    "/>
+  </div>
+</div>

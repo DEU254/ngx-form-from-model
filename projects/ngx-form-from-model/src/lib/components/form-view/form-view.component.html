@@ -1,0 +1,12 @@
+<form [formGroup]="formDefinition.formGroup" (ngSubmit)="onSubmit()">
+
+  <ng-template ngFor let-field [ngForOf]="formDefinition.fields">
+    <ffm-form-view-control
+      [field]="field"
+      [uistyle]="uistyle"
+      [formGroup]="formDefinition.formGroup"
+      [size]="size"
+    ></ffm-form-view-control>
+  </ng-template>
+
+</form>
